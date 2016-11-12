@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8  -*-
 """
-Bot tag tag files available at Commons with the Nowcommons template.
+Bot tag files available at Commons with the Nowcommons template.
 """
 #
 # (C) Multichill, 2011
@@ -48,6 +48,45 @@ skips = {
                ],
         'fy': [u'NowCommons',
                u'Nowcommons',
+               ],
+        'ro': [u'NowCommons',
+               u'Now Commons',
+               u'AcumCommons',
+               u'FOP',
+               u'FOP Romania',
+               u'Do not move to Commons',
+               ],
+        'ru': [u'NowCommons',
+               u'Now Commons',
+               u'NoCommons',
+               u'FoP',
+               u'FoP-Russia',
+               u'FoP-Ukraine',
+               u'FoP-France',
+               u'FoP-Belarus',
+               u'FoP-Georgia',
+               u'FoP-Estonia',
+               u'FoP-Latvia',
+               u'FoP-Lithuania',
+               u'FoP-Azerbaijan',
+               u'FoP-Kazakhstan',
+               u'FoP-Kyrgyzstan',
+               u'FoP-Tajikistan',
+               u'FoP-Turkmenistan',
+               u'FoP-Abkhazia',
+               u'FoP-Nagorno-Karabakh Republic',
+               u'FoP-NKR',
+               u'FoP-because',
+               ],
+        'uk': [u'NowCommons',
+               u'Now Commons',
+               u'NoCommons',
+               u'No Commons',
+               u'Nocommons',
+               u'No commons',
+               u'NoCommons1',
+               u'NoFoP',
+               u'KeepLocal',
                ],
     },
 }
