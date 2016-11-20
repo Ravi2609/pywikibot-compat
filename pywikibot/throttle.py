@@ -1,9 +1,9 @@
-# -*- coding: utf-8  -*-
+# -*- coding: utf-8 -*-
 """
 Mechanics to slow down wiki read and/or write rate.
 """
 #
-# (C) Pywikipedia bot team, 2008
+# (C) Pywikipedia bot team, 2008-2016
 #
 # Distributed under the terms of the MIT license.
 #
@@ -33,6 +33,9 @@ class Throttle(object):
     access.
 
     """
+
+    message = 'Compat deprecation warning shown\n'
+
     def __init__(self, mindelay=None, maxdelay=None, writedelay=None,
                  multiplydelay=True, verbosedelay=False, write=False):
         self.lock = threading.RLock()
@@ -64,9 +67,31 @@ class Throttle(object):
         self.setDelay()
         self.write = write
 
+    def _show_warning(self):
+        """Show compat deprecation waring once."""
+        pywikibot.input("""\03{lightyellow}
+PLEASE NOTE: compat pywikibot branch is deprecated. You may use it but no
+bug fixes, features or support is provided by the pywikibot developer
+team anymore.
+
+This package only runs for MediaWiki versions not higher than 1.27.
+
+Please use the new core branch of the pywikibot framework which supports
+the current version of MediaWiki. Compat scripts are already migrated
+to core branch and there is a migrating tool which helps converting of
+your private scripts.
+
+Please refer to:
+    http://www.mediawiki.org/wiki/Manual:Pywikibot
+    https://phabricator.wikimedia.org/T99365
+
+Press <enter> to continue.
+\03{default}""")
+
     def checkMultiplicity(self):
         """Count running processes for site and set process_multiplicity."""
         global pid
+        warning = True
         self.lock.acquire()
         mysite = self.mysite = str(pywikibot.getSite())
         if pywikibot.verbose:
@@ -86,6 +111,9 @@ class Throttle(object):
             else:
                 now = time.time()
                 for line in f.readlines():
+                    if line == self.message:
+                        warning = False
+                        continue
                     # parse line; format is "pid timestamp site"
                     try:
                         line = line.split(' ')
@@ -108,6 +136,9 @@ class Throttle(object):
                     if not pid and this_pid >= my_pid:
                         my_pid = this_pid+1 # next unused process id
 
+            if warning:
+                self._show_warning()
+
             if not pid:
                 pid = my_pid
             self.checktime = time.time()
@@ -117,6 +148,7 @@ class Throttle(object):
             processes.sort(key=lambda p:(p['pid'], p['site']))
             try:
                 f = open(self.ctrlfilename, 'w')
+                f.write(self.message)
                 for p in processes:
                     f.write("%(pid)s %(time)s %(site)s\n" % p)
             except IOError:
@@ -193,6 +225,7 @@ class Throttle(object):
         # drop all throttles with this process's pid, regardless of site
         self.checktime = 0
         processes = []
+        warning = False
         try:
             f = open(self.ctrlfilename, 'r')
         except IOError:
@@ -201,6 +234,9 @@ class Throttle(object):
             now = time.time()
             for line in f.readlines():
                 try:
+                    if line == self.message:
+                        warning = True
+                        continue
                     line = line.split(' ')
                     this_pid = int(line[0])
                     ptime = int(line[1].split('.')[0])
@@ -216,6 +252,8 @@ class Throttle(object):
         processes.sort(key=lambda p:p['pid'])
         try:
             f = open(self.ctrlfilename, 'w')
+            if warning:
+                f.write(self.message)
             for p in processes:
                 f.write("%(pid)s %(time)s %(site)s\n" % p)
         except IOError:

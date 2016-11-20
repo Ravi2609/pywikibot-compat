@@ -2,14 +2,29 @@ This is a package to build robots for MediaWiki wikis like Wikipedia. Some
 example robots are included.
 
 =======================================================================
+PLEASE NOTE: This pywikibot branch is deprecated. You may use it but no
+bug fixes, features or support is provided by the pywikibot developer
+team anymore. This package only runs for MediaWiki versions not higher
+than 1.27. Python version 2.7.2 or higher is needed but Python 3.X is
+not supported.
+
+Please use the new core branch of the pywikibot framework which supports
+MediaWiki version 1.14 upto the current version and Python release 2.7.2
+and higher as well as 3.3 and higher. Compat scripts are already migrated
+to core branch and there is a migrating tool which helps converting of
+your private scripts. 
+
+To get started on proper usage of the new bot framework, please refer to:
+
+    http://www.mediawiki.org/wiki/Manual:Pywikibot
+
+=======================================================================
+
+-----------------------------------------------------------------------
 PLEASE DO NOT PLAY WITH THIS PACKAGE. These programs can actually
 modify the live wiki on the net, and proper wiki-etiquette should
 be followed before running it on any wiki.
-=======================================================================
-
-To get started on proper usage of the bot framework, please refer to:
-
-    http://www.mediawiki.org/wiki/Manual:Pywikibot
+-----------------------------------------------------------------------
 
 The contents of the package are:
 
@@ -311,10 +326,7 @@ parameter, e.g.
 
 You need to have at least python version 2.7.2 (http://www.python.org/download/)
 or newer installed on your computer to be able to run any of the code in this
-package, but not 3.x, because pywikibot is still not updated to it! Support
-for older versions of python is not planned. Some scripts could run with older
-python releases. Please refer the manual at mediawiki for further details and
-restrictions.
+package, but not 3.x. Support for other versions of python is not planned.
 
 You do not need to "install" this package to be able to make use of
 it. You can actually just run it from the directory where you unpacked
